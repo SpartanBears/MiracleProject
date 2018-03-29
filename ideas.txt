@@ -1,0 +1,71 @@
+/*
+	Stats
+		str,agi,vit, int, dex, luk (RO style)
+
+	Attributes
+		hp, def, mdef, eva (flee), atk, matk, aspd, cspd, hit
+
+	Attr modifiers always apply as % to base attr(ie = aspd*aspd_mod)
+
+	Races
+		Dwarf
+		Orc
+		Elf
+		Human
+		Construct
+		
+	Classes
+		Dwarf
+		-> Soldier
+		-> Thunderer -> Cannoneer
+		-> Ironguard -> Greybeard
+		-> General -> Thane
+		-> Apprentice
+		-> Earthbender -> Geomancer
+		-> Enchanter -> Runesmith
+		-> Artisan
+		-> Blacksmith
+		-> Warsmith
+		-> Engineer
+		-> Merchant -> Trader -> Master Trader
+		Orc
+		-> Soldier
+		-> Berserker
+		-> Wolf rider
+		-> Warchief
+		-> Shaman
+		-> Nature (Heal - Buff)
+		-> Ancestors (Spirit - Invocation)
+		-> Rage (Damage)
+		-> Hunter
+		-> Master Tracker
+		Elf
+		-> Soldier
+		-> Thoron Hend (Bow specialist)
+		-> Gwanunig Magol (Dual-sword specialist)
+		-> Noldo Cora (Wise Leader)
+		-> Mage
+		-> Elementalist
+		-> Arcanist
+		-> Diviner
+		-> Priest
+		-> High Priest
+		Human
+		-> Soldier
+		-> Knight -> Lord Knight
+		-> Crusader -> Inquisitor
+		-> Earl -> Duke
+		-> Acolyte
+		-> Priest -> Inquisitor
+		-> Monk -> Enlightened
+		-> Scholar
+		-> Wizard -> High Wizard
+		-> Necromancer -> Dark Master
+		-> Thief
+		-> Merchant -> Trader
+		-> Assassin -> Shadow Assassin
+		Construct
+		-> Elemental |
+		-> Arcane | -> [Type] Elemental
+		-> Nature |
+*/
