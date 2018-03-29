@@ -137,9 +137,14 @@ classes["classes_2"]["merchant_2"] = {
 	Healing = matk * (int*0.5>1?int*0.5:1)
 	So, the Healing skill will provide bonus int and matk, instead of having
 	it's own equation.
+
+	Skills will be sorted/grouped by race or class/job
 */
 
-var skills["dwarf"] = [
+var skills = [];
+
+
+skills["Dwarf"] = [
 
 	{
 		name: "Heavy Blow",
@@ -164,6 +169,32 @@ var skills["dwarf"] = [
 			hit: -5
 		}
 
-	}
+	},
 
+];
+
+skills["Merchant"] = [
+	{
+		name: "Loot",
+		type: "Support",
+		bonus_stats:{
+			str: 5,
+			agi: 0,
+			vit: 0,
+			int: 0,
+			dex: 0,
+			luk: 25
+		},
+		bonus_attributes:{
+			hp: 0,
+			def: 0,
+			mdef: 0,
+			eva: 0,
+			atk: 0,
+			matk: 0,
+			aspd: 0,
+			cspd: 0,
+			hit: 0
+		}
+	},
 ];
