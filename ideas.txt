@@ -16,56 +16,56 @@
 		
 	Classes
 		Dwarf
-		-> Soldier
-		-> Thunderer -> Cannoneer
-		-> Ironguard -> Greybeard
-		-> General -> Thane
-		-> Apprentice
-		-> Earthbender -> Geomancer
-		-> Enchanter -> Runesmith
-		-> Artisan
-		-> Blacksmith
-		-> Warsmith
-		-> Engineer
-		-> Merchant -> Trader -> Master Trader
+			-> Soldier
+			-> Thunderer -> Cannoneer
+			-> Ironguard -> Greybeard
+			-> General -> Thane
+			-> Apprentice
+			-> Earthbender -> Geomancer
+			-> Enchanter -> Runesmith
+			-> Artisan
+			-> Blacksmith
+			-> Warsmith
+			-> Engineer
+			-> Merchant -> Trader -> Master Trader
 		Orc
-		-> Soldier
-		-> Berserker
-		-> Wolf rider
-		-> Warchief
-		-> Shaman
-		-> Nature (Heal - Buff)
-		-> Ancestors (Spirit - Invocation)
-		-> Rage (Damage)
-		-> Hunter
-		-> Master Tracker
+			-> Soldier
+			-> Berserker
+			-> Wolf rider
+			-> Warchief
+			-> Shaman
+			-> Nature (Heal - Buff)
+			-> Ancestors (Spirit - Invocation)
+			-> Rage (Damage)
+			-> Hunter
+			-> Master Tracker
 		Elf
-		-> Soldier
-		-> Thoron Hend (Bow specialist)
-		-> Gwanunig Magol (Dual-sword specialist)
-		-> Noldo Cora (Wise Leader)
-		-> Mage
-		-> Elementalist
-		-> Arcanist
-		-> Diviner
-		-> Priest
-		-> High Priest
+			-> Soldier
+			-> Thoron Hend (Bow specialist)
+			-> Gwanunig Magol (Dual-sword specialist)
+			-> Noldo Cora (Wise Leader)
+			-> Mage
+			-> Elementalist
+			-> Arcanist
+			-> Diviner
+			-> Priest
+			-> High Priest
 		Human
-		-> Soldier
-		-> Knight -> Lord Knight
-		-> Crusader -> Inquisitor
-		-> Earl -> Duke
-		-> Acolyte
-		-> Priest -> Inquisitor
-		-> Monk -> Enlightened
-		-> Scholar
-		-> Wizard -> High Wizard
-		-> Necromancer -> Dark Master
-		-> Thief
-		-> Merchant -> Trader
-		-> Assassin -> Shadow Assassin
+			-> Soldier
+			-> Knight -> Lord Knight
+			-> Crusader -> Inquisitor
+			-> Earl -> Duke
+			-> Acolyte
+			-> Priest -> Inquisitor
+			-> Monk -> Enlightened
+			-> Scholar
+			-> Wizard -> High Wizard
+			-> Necromancer -> Dark Master
+			-> Thief
+			-> Merchant -> Trader
+			-> Assassin -> Shadow Assassin
 		Construct
-		-> Elemental |
-		-> Arcane | -> [Type] Elemental
-		-> Nature |
+			-> Elemental (Fire, Water, Earth, Wind) -> Nature (Wood [Water + Earth], Lava [Fire + Earth], Steam [Fire+Water])
+			-> Arcane (Shadow, Light, Life, Death)
+			
 */
