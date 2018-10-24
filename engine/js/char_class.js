@@ -1,3 +1,5 @@
+//DEPRECATED - check char_class.js to see working example.
+
 //Class example
 /*
 	There will be classes or jobs for the characters.
@@ -10,9 +12,12 @@
 
 	Classes will give the character access to different skills and
 	will recieve bonuses to its stats or attributes.
+
+	check char_class.js to see working example.
+
 */
 
-var classes = {
+/*var classes = {
 	classes_0:[],
 	classes_1:[],
 	classes_2:[],
@@ -94,4 +99,4 @@ classes["classes_2"]["merchant_2"] = {
 	},
 	next_tier:"none",
 	next_class:"none",
-};
+};*/
