@@ -48,6 +48,7 @@ sys_races['dwarf'] = {
 sys_races['dwarf'].classes["classes_0"]["merchant_0"] = {
 	name:"Merchant",
 	lore:"lore",
+	main_stat: "luk",
 	bonus_stats:{
 		str: 0,
 		agi: 0,
@@ -75,6 +76,7 @@ sys_races['dwarf'].classes["classes_0"]["merchant_0"] = {
 sys_races['dwarf'].classes["classes_1"]["merchant_1"] = {
 	name:"Trader",
 	lore:"lore",
+	main_stat: "luk",
 	bonus_stats:{
 		str: 0,
 		agi: 0,
@@ -102,6 +104,7 @@ sys_races['dwarf'].classes["classes_1"]["merchant_1"] = {
 sys_races['dwarf'].classes["classes_2"]["merchant_2"] = {
 	name:"Master Trader",
 	lore:"lore",
+	main_stat: "luk",
 	bonus_stats:{
 		str: 0,
 		agi: 0,
