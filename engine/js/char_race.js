@@ -4,7 +4,7 @@ var sys_races = [];
 sys_races['dwarf'] = {
 	name: "Dwarf",
 	lore: "lore",
-	base_stats:{
+	bonus_stats:{
 		str: 8,
 		agi: 4,
 		vit: 7,
@@ -12,7 +12,7 @@ sys_races['dwarf'] = {
 		dex: 5,
 		luk: 5
 	},
-	base_attributes:{
+	bonus_attributes:{
 		hp: 500,
 		def: 25,
 		mdef: 35,

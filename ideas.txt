@@ -74,38 +74,70 @@
 	Character levels will go from 1 to 99, with the chance of being "reborn" at level 99, going back to
 	level 1 with extra stat points.
 
-	For each level up the character will get 5+log? stat points.
+	For each level up the character will get Math.ceil((Level*0.25)+5) stat points.
 	Stats will be allocated pseudo randomly depending on the character class and race.
 	The player will be able to reallocate all the points after paying A HUGE LOT OF MONEY.
 	Stats will go from 1 to 99.
 
 	Attributes will be calculated depending on the character stats using the following formulas:
 
-		- HP (INT)
+		- HP (integer)
 			(VIT*2.5) + (Level*(Math.floor(Level/10)+10)) + bonuses
 
-		- DEF (INT)
-			(VIT*3) + (DEX*1.5) + (Level*((VIT+DEX)*0.5)) + bonuses
+		- DEF (FLOAT %)
+			(VIT*0.3) + (DEX*0.09) + (Level*0.125) + bonuses
 
-		- MDEF (INT)
-			(VIT*1.5) + (INT*3) + (Level*((VIT+INT)*0.5)) + bonuses
+		- MDEF (integer)
+			(VIT*0.15) + (INT*0.3) + (Level*0.125) + bonuses
 
-		- EVA (PROB) 9.99 MAX
-			(AGI*0.05) + (DEX*0.025) + bonuses
+		- EVA (integer)
+			(AGI*3) + (DEX*1.5) + bonuses
 
-		- ATK
+		- ATK (integer)
 			(STR*3) + (AGI*1.25) + ((Level*(STR+AGI))/5)
 
-		- MATK
+		- MATK (integer)
 			(INT*4) + ((Level*(INT*2))/5)
 
-		- ASPD (Attacks per frame - APF) 
+		- ASPD (FLOAT - Attacks per tick) 
 			(AGI*0.0125) + (DEX*0.005) + bonuses
 
-		- CSPD (Delay reduction factor)
+		- CSPD (FLOAT - Delay reduction factor)
 			(DEX*0.005) + (AGI*0.0025) + bonuses
 
-		- HIT ()
+		- HIT (integer)
+			(DEX*3) + (INT*0.5) + bonuses
+
+
+	Combat System
+
+	- Damage
+		ATK vs DEF and MATK vs MDEF
+			ATK is the ammount of HP deducted from the enemy if the attack succedes
+			DEF is the percentage of ATK mitigated
+			i.e: 100 ATK vs 36.5 DEF = Defender gets damaged for 64 points
+
+	- Evasion
+		HIT vs EVA
+		HIT and EVA are bot integers that interact as inverses.
+		i.e: 100 HIT vs 100 EVA = 0 (50% chance of landing an attack)
+		Using the example above, we will define that 0 represents 50% of landing an attack.
+		Every 10/100 (not sure yet) points 5% will be added to that probability.
+		i.e: 110 HIT vs 100 EVA = 10 (55% of landing an attack).
+		The same logic applies for EVA > HIT
+
+	- ASPD
+		Every encounter will have a timer in milliseconds.
+		Every Character will perform an action every X milliseconds depending on their ASPD.
+		An ASPD of 1.2 allows the character to do an action every 800 milliseconds.
+		An ASPD of 0.5 forces the character to just do an action every 1500 milliseconds.
+		Attacks are instantaneous. Skills may, or may not, have a delay (SEE CSPD).
+
+	- CSPD
+		Skills/Spells may have a delay, CSPD reduces that delay by a percentage.
+		If the Skill/Spell has a 2 second delay, and the character has 0.5 CSPD,
+		the delay of using/casting that Skill/Spell will be 1 second. 
+
 
 
 
