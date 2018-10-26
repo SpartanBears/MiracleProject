@@ -82,8 +82,6 @@ function getRandomClass(tier, race){
 
 function randomAllocateStatsPoints(character){
 
-	console.log(character);
-
 	//allocate main stat first (30% min 50% max of total)
 	var mainStatAllocationQty = getRandomNumber(Math.floor(character.unusedStatPoints*0.3), Math.floor(character.unusedStatPoints*0.5));
 
