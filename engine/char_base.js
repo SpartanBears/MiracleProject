@@ -1,3 +1,11 @@
+var CharRace = require("./char_race.js");
+var EngineTools = require("./engine_tools.js");
+
+module.exports = {
+
+	createNewCharacter : createNewCharacter,
+};
+
 //Character object
 /*
 	NPCs will have a race and a class. This is the object to be used as a character.
@@ -19,12 +27,12 @@ function createNewCharacter(charName, charLevel){
 	character.unusedStatPoints = character.level == 1 ? 0:Math.ceil((character.level*0.25)+5);
 
 	character.base_stats = {
-		str: character.class.main_stat == "str" ? getRandomNumber(5,9):getRandomNumber(2,5),
-		agi: character.class.main_stat == "agi" ? getRandomNumber(5,9):getRandomNumber(2,5),
-		vit: character.class.main_stat == "vit" ? getRandomNumber(5,9):getRandomNumber(2,5),
-		int: character.class.main_stat == "int" ? getRandomNumber(5,9):getRandomNumber(2,5),
-		dex: character.class.main_stat == "dex" ? getRandomNumber(5,9):getRandomNumber(2,5),
-		luk: character.class.main_stat == "luk" ? getRandomNumber(5,9):getRandomNumber(2,5),
+		str: character.class.main_stat == "str" ? EngineTools.getRandomNumber(5,9):EngineTools.getRandomNumber(2,5),
+		agi: character.class.main_stat == "agi" ? EngineTools.getRandomNumber(5,9):EngineTools.getRandomNumber(2,5),
+		vit: character.class.main_stat == "vit" ? EngineTools.getRandomNumber(5,9):EngineTools.getRandomNumber(2,5),
+		int: character.class.main_stat == "int" ? EngineTools.getRandomNumber(5,9):EngineTools.getRandomNumber(2,5),
+		dex: character.class.main_stat == "dex" ? EngineTools.getRandomNumber(5,9):EngineTools.getRandomNumber(2,5),
+		luk: character.class.main_stat == "luk" ? EngineTools.getRandomNumber(5,9):EngineTools.getRandomNumber(2,5),
 	};
 
 	//bonus stats from equipment, buffs, etc
@@ -72,18 +80,18 @@ function createNewCharacter(charName, charLevel){
 
 function getRandomRace(){
 
-	return sys_races[Object.keys(sys_races)[getRandomNumber(0,Object.keys(sys_races).length)]];
+	return CharRace.sys_races[Object.keys(CharRace.sys_races)[EngineTools.getRandomNumber(0,Object.keys(CharRace.sys_races).length)]];
 }
 
 function getRandomClass(tier, race){
 
-	return race.classes['classes_'+tier][Object.keys(race.classes['classes_'+tier])[getRandomNumber(0,Object.keys(race.classes['classes_'+tier]).length)]];
+	return race.classes['classes_'+tier][Object.keys(race.classes['classes_'+tier])[EngineTools.getRandomNumber(0,Object.keys(race.classes['classes_'+tier]).length)]];
 }
 
 function randomAllocateStatsPoints(character){
 
 	//allocate main stat first (30% min 50% max of total)
-	var mainStatAllocationQty = getRandomNumber(Math.floor(character.unusedStatPoints*0.3), Math.floor(character.unusedStatPoints*0.5));
+	var mainStatAllocationQty = EngineTools.getRandomNumber(Math.floor(character.unusedStatPoints*0.3), Math.floor(character.unusedStatPoints*0.5));
 
 	character.base_stats[character.class.main_stat] += mainStatAllocationQty;
 	character.unusedStatPoints -= mainStatAllocationQty;
@@ -93,7 +101,7 @@ function randomAllocateStatsPoints(character){
 	var statsList = ["agi", "vit", "int", "dex", "luk"];
 	while(character.unusedStatPoints > 0){
 
-		var allocation = getRandomNumber(1, Math.floor(character.unusedStatPoints*0.2));
+		var allocation = EngineTools.getRandomNumber(1, Math.floor(character.unusedStatPoints*0.2));
 		character.base_stats[statsList[count]] += allocation;
 		character.unusedStatPoints -= allocation;
 		count++;

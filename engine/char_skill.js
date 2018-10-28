@@ -24,6 +24,10 @@
 
 var skills = [];
 
+module.exports = {
+
+	skills: skills,
+};
 
 skills["Dwarf"] = [
 
