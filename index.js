@@ -18,7 +18,7 @@ http.listen(port, function() {
 });
 
 var Engine = require("./engine/engine.js");
-var Testing = require("./testing/testing.js");
+var Testing = require("./tests/testing.js");
 
 io.on('connection', function (socket) {
 
