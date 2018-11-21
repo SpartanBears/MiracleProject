@@ -18,7 +18,7 @@ http.listen(port, function() {
 });
 
 var Engine = require("./engine/engine.js");
-var Testing = require("./tests/testing.js");
+var Testing = require("./testing/testing.js");
 
 io.on('connection', function (socket) {
 
@@ -26,6 +26,11 @@ io.on('connection', function (socket) {
 
 	socket.on('TEST randomChars', function (data) {
 		Testing.runTest("randomChars", data.names, io, socket.id);
+	});
+
+	socket.on('TEST createUser', function(data){
+
+		Testing.runTest("createUser", data, io, socket.id);
 	});
 });
 

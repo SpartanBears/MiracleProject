@@ -3,6 +3,7 @@ var CharRace = require("./char_race.js");
 var CharSkill = require("./char_skill.js");
 var CharClass = require("./char_class.js");
 var CharBase = require("./char_base.js");
+var Model = require("./model.js");
 
 module.exports = {
 
@@ -11,4 +12,5 @@ module.exports = {
 	CharSkill: CharSkill,
 	CharClass: CharClass,
 	CharBase: CharBase,
+	Model: Model,
 };

@@ -1,0 +1,42 @@
+
+
+Adventurer
+----------
+belongs to        familia                                  as Familium 
+
+
+Familium
+--------
+has many          adventurer                               as AdventurerFk0s 
+has many          guild_familia                            as GuildFamiliaFk0s 
+belongs to        god                                      as God 
+belongs to many   guild                                    as GuildFamiliumGuilds 
+
+
+God
+---
+has many          familia                                  as FamiliaFk0s 
+belongs to        user                                     as User 
+
+
+Guild
+-----
+has many          guild_familia                            as FamiliaFk1s 
+belongs to        guild_type                               as GuildType 
+belongs to many   familia                                  as GuildFamiliumFamilia 
+
+
+GuildFamilium
+-------------
+belongs to        familia                                  as Familium 
+belongs to        guild                                    as Guild 
+
+
+GuildType
+---------
+has many          guild                                    as GuildFk0s 
+
+
+User
+----
+has many          god                                      as GodFk0s 
