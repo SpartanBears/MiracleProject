@@ -18,7 +18,7 @@ http.listen(port, function() {
 });
 
 var Engine = require("./engine/engine.js");
-var Testing = require("./testing/testing.js");
+var Testing = require("./tests/testing.js");
 
 io.on('connection', function (socket) {
 
@@ -29,8 +29,19 @@ io.on('connection', function (socket) {
 	});
 
 	socket.on('TEST createUser', function(data){
-
 		Testing.runTest("createUser", data, io, socket.id);
+	});
+
+	socket.on('TEST createGod', function(data){
+		Testing.runTest("createGod", data, io, socket.id);
+	});
+
+	socket.on('TEST createFamilia', function(data){
+		Testing.runTest("createFamilia", data, io, socket.id);
+	});
+
+	socket.on('TEST createAdventurers', function(data){
+		Testing.runTest("createAdventurers", data.names, io, socket.id);
 	});
 });
 

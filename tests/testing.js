@@ -31,6 +31,42 @@ module.exports = {
 
 			break;
 
+			case "createGod":
+
+				//data
+				//{name:string, desc:string}
+
+				testReturn = createGod(data);
+				testReturn.then(function(god){
+					io.to(userSocket).emit(testID+" SUCCESS", {return: god});
+				});
+
+			break;
+
+			case "createFamilia":
+
+				//data
+				//{name:string}
+
+				testReturn = createFamilia(data);
+				testReturn.then(function(familia){
+					io.to(userSocket).emit(testID+" SUCCESS", {return: familia});
+				});
+
+			break;
+
+			case "createAdventurers":
+
+				//data
+				//{names:[string]}
+
+				testReturn = createAdventurers(data);
+				testReturn.then(function(result){
+					io.to(userSocket).emit(testID+" SUCCESS", {return: result});
+				});
+				
+			break;
+
 			default:
 			break;
 		}
@@ -53,5 +89,20 @@ function randomCharacterCreation(namePool){
 
 function createUser(userData){
 
-	return Engine.Model.createUser(userData.user, userData.pwd, userData.username);
+	return Engine.Model.createUserTest(userData.user, userData.pwd, userData.username);
+}
+
+function createGod(userData){
+
+	return Engine.Model.createGodTest(userData.godName, userData.desc);
+}
+
+function createFamilia(userData){
+
+	return Engine.Model.createFamiliaTest(userData.familiaName);
+}
+
+function createAdventurers(namePool){
+
+	return Engine.Model.createAdventurersTest(namePool);
 }
