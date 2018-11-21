@@ -10,7 +10,24 @@ module.exports = {
 
 			case "randomChars":
 
+				//data
+				//{names:[string]}
+
 				testReturn = randomCharacterCreation(data);
+
+				io.to(userSocket).emit(testID+" SUCCESS", {return: testReturn});
+
+			break;
+
+			case "createUser":
+
+				//data
+				//{user:string, pwd:string, username:string}
+
+				testReturn = createUser(data);
+				testReturn.then(function(user){
+					io.to(userSocket).emit(testID+" SUCCESS", {return: user});
+				});
 
 			break;
 
@@ -18,7 +35,6 @@ module.exports = {
 			break;
 		}
 
-		io.to(userSocket).emit(testID+" SUCCESS", {return: testReturn});
 	},
 
 };
@@ -33,4 +49,9 @@ function randomCharacterCreation(namePool){
 	}
 
 	return characters;
+}
+
+function createUser(userData){
+
+	return Engine.Model.createUser(userData.user, userData.pwd, userData.username);
 }
