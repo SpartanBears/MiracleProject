@@ -13,7 +13,7 @@
 	Classes will give the character access to different skills and
 	will recieve bonuses to its stats or attributes.
 
-	check char_class.js to see working example.
+	check char_race.js to see working example.
 
 */
 

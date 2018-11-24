@@ -43,6 +43,10 @@ io.on('connection', function (socket) {
 	socket.on('TEST createAdventurers', function(data){
 		Testing.runTest("createAdventurers", data.names, io, socket.id);
 	});
+
+	socket.on('TEST createGuild', function(data){
+		Testing.runTest("createGuild", data, io, socket.id);
+	});
 });
 
 

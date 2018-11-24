@@ -4,6 +4,7 @@ var EngineTools = require("./engine_tools.js");
 module.exports = {
 
 	createNewCharacter : createNewCharacter,
+	calculateCharacterAttr : calculateCharacterAttr,
 };
 
 //Character object
@@ -73,7 +74,17 @@ function createNewCharacter(charName, charLevel){
 		hit: 0,
 	};
 
+	character.equipment = {
+		armor: {},
+		weapons: {},
+		jewelry: {}
+	};
+
+	character.skillPool = [];
+
 	calculateCharacterAttr(character, "all");
+
+	character.current_attributes = JSON.parse(JSON.stringify(character.final_attributes));
 
 	return character;
 }

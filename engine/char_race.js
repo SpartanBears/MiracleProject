@@ -48,10 +48,31 @@ sys_races['dwarf'] = {
 	Classes will give the character access to different skills and
 	will recieve bonuses to its stats or attributes.
 
+	Classes will be categorized in one of the following roles
+		Bruiser: Durable damage dealers
+		Scholar: Magic users and Wise adventurers
+		Striker: Frafile but heavy damage dealer
+
+	Classes also will be categorized by one of the following archetypes
+		Fighter
+		Tank
+		Archer
+		Rogue
+		Wizard
+		Support
+		Specialist (These classes may refer to a unique archetype for a Race, such as Merchant for Dwarves)
+	
+	Each race may have just one class of each archetype.
+
+	Each class will have a unique identifier composed by Race, Archetype and Tier
+	Dwarf Merchant = DwarfSpecialist0
+
 */
 
 sys_races['dwarf'].classes["classes_0"]["merchant_0"] = {
 	name:"Merchant",
+	role:"Scholar",
+	archetype:"Specialist",
 	lore:"lore",
 	main_stat: "luk",
 	bonus_stats:{
@@ -80,6 +101,8 @@ sys_races['dwarf'].classes["classes_0"]["merchant_0"] = {
 
 sys_races['dwarf'].classes["classes_1"]["merchant_1"] = {
 	name:"Trader",
+	role:"Scholar",
+	archetype:"Specialist",
 	lore:"lore",
 	main_stat: "luk",
 	bonus_stats:{
@@ -101,13 +124,15 @@ sys_races['dwarf'].classes["classes_1"]["merchant_1"] = {
 		cspd: 0,
 		hit: 25
 	},
-	current_tier:"0",
+	current_tier:"1",
 	next_tier:"classes_2",
 	next_class:"merchant_2",
 };
 
 sys_races['dwarf'].classes["classes_2"]["merchant_2"] = {
 	name:"Master Trader",
+	role:"Scholar",
+	archetype:"Specialist",
 	lore:"lore",
 	main_stat: "luk",
 	bonus_stats:{
@@ -129,7 +154,7 @@ sys_races['dwarf'].classes["classes_2"]["merchant_2"] = {
 		cspd: 0,
 		hit: 25
 	},
-	current_tier:"0",
+	current_tier:"2",
 	next_tier:"none",
 	next_class:"none",
 };

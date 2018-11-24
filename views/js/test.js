@@ -50,3 +50,13 @@ userSocket.on('createFamilia SUCCESS', function(data){
 
 	console.log(data);
 });
+
+//creates new adventurers (persistant) in a new familia, with new god and user
+tempTS = new Date().getTime();
+
+userSocket.emit('TEST createGuild', {guildName:"GuildTest_"+tempTS});
+
+userSocket.on('createGuild SUCCESS', function(data){
+
+	console.log(data);
+});

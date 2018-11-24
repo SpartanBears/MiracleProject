@@ -19,7 +19,7 @@
 	So, the Healing skill will provide bonus int and matk, instead of having
 	it's own formula.
 
-	Skills will be sorted/grouped by race or class/job
+	Skills will be sorted/grouped by Race and Unique Class Identifier
 */
 
 var skills = [];
@@ -58,7 +58,7 @@ skills["Dwarf"] = [
 
 ];
 
-skills["Merchant"] = [
+skills["DwarfSpecialist0"] = [
 	{
 		name: "Loot",
 		type: "Support",

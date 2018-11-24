@@ -67,6 +67,18 @@ module.exports = {
 				
 			break;
 
+			case "createGuild":
+
+				//data
+				//{guildName:string}
+
+				testReturn = createGuild(data.guildName);
+				testReturn.then(function(result){
+					io.to(userSocket).emit(testID+" SUCCESS", {return: result});
+				});
+				
+			break;
+
 			default:
 			break;
 		}
@@ -105,4 +117,9 @@ function createFamilia(userData){
 function createAdventurers(namePool){
 
 	return Engine.Model.createAdventurersTest(namePool);
+}
+
+function createGuild(guildName){
+
+	return Engine.Model.createGuildTest(guildName);
 }

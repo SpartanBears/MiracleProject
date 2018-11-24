@@ -4,6 +4,7 @@ var CharSkill = require("./char_skill.js");
 var CharClass = require("./char_class.js");
 var CharBase = require("./char_base.js");
 var Model = require("./model.js");
+var CombatSystem = require("./combat_system.js");
 
 module.exports = {
 
