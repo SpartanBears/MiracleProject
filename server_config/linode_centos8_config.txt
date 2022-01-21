@@ -1,5 +1,7 @@
 sudo yum update
 
+sudo yum install tar
+
 sudo yum install nginx
 
 vi /etc/nginx/conf.d/example.com.conf
@@ -94,3 +96,8 @@ ss -nlt | grep 5432
 vi /var/lib/pgsql/data/pg_hba.conf
     host all all 0.0.0.0/0 ident
 
+//INSTALL NODE
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
+. ~/.nvm/nvm.sh
+nvm install node
+node -e "console.log('Running Node.js ' + process.version)"

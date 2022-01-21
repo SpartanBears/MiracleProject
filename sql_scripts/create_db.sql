@@ -1,29 +1,29 @@
 CREATE TABLE player_user (
     id bigserial NOT NULL PRIMARY KEY,
-    login_email character varying (97) NOT NULL UNIQUE,
+    login_email character varying (60) NOT NULL UNIQUE,
     login_key character varying (60) NOT NULL,
-    display_name character varying (29) NOT NULL,
-    is_active boolean NULL default 1,
+    display_name character varying (60) NOT NULL,
+    is_active boolean NULL default true,
     ts_rowcreation timestamp NULL default (now() at time zone 'utc'),
     ts_lastloginkeychange timestamp NULL default (now() at time zone 'utc'),
     ts_activestatechange timestamp NULL default (now() at time zone 'utc')
 );
 
 CREATE INDEX player_user_email_idx ON player_user (login_email);
-#-------------------------
+
 
 CREATE TABLE major_god (
     id serial NOT NULL PRIMARY KEY,
-    name character varying (29) NOT NULL,
+    name character varying (29) NOT NULL
 );
-#-------------------------
+
 
 CREATE TABLE god_type (
     id serial NOT NULL PRIMARY KEY,
     name character varying (29) NOT NULL,
     gerund character varying (29) NOT NULL
 );
-#-------------------------
+
 
 CREATE TABLE major_god_type (
     id bigserial NOT NULL PRIMARY KEY,
@@ -38,13 +38,13 @@ CREATE TABLE major_god_type (
 );
 
 CREATE INDEX major_god_type_typeid_idx ON major_god_type (god_type_id);
-#-------------------------
+
 
 CREATE TABLE player_god (
     id bigserial NOT NULL PRIMARY KEY,
     player_user_id bigint NOT NULL,
     name character varying (29),
-    is_active boolean NULL default 1,
+    is_active boolean NULL default true,
     major_god_id int NOT NULL,
     ts_rowcreation timestamp NULL default (now() at time zone 'utc'),
     ts_activestatechange timestamp NULL default (now() at time zone 'utc'),
@@ -63,7 +63,7 @@ CREATE TABLE familia (
     id bigserial NOT NULL PRIMARY KEY,
     player_god_id bigint NOT NULL,
     name character varying (29) NOT NULL,
-    is_active boolean NULL default 1,
+    is_active boolean NULL default true,
     ts_rowcreation timestamp NULL default (now() at time zone 'utc'),
     ts_activestatechange timestamp NULL default (now() at time zone 'utc'),
     CONSTRAINT fk_player_god
@@ -72,7 +72,7 @@ CREATE TABLE familia (
 );
 
 CREATE INDEX familia_player_god_idx ON familia (player_god_id);
-#-------------------------
+
 
 CREATE TABLE npc_type (
     id serial NOT NULL PRIMARY KEY,
@@ -107,7 +107,7 @@ CREATE TABLE npc (
     stat_luk int NOT NULL default 1,
     npc_json character varying,
     npc_hash character varying (60),
-    is_active boolean NULL default 1,
+    is_active boolean NULL default true,
     ts_rowcreation timestamp NULL default (now() at time zone 'utc'),
     ts_activestatechange timestamp NULL default (now() at time zone 'utc'),
     CONSTRAINT fk_npc_type
@@ -129,7 +129,7 @@ CREATE TABLE familia_npc (
     id bigserial NOT NULL PRIMARY KEY,
     npc_id bigint NOT NULL,
     familia_id bigint NOT NULL,
-    is_active boolean NULL default 1,
+    is_active boolean NULL default true,
     ts_rowcreation timestamp NULL default (now() at time zone 'utc'),
     ts_activestatechange timestamp NULL default (now() at time zone 'utc'),
     CONSTRAINT fk_familia_npc
@@ -141,7 +141,7 @@ CREATE TABLE familia_npc (
 );
 
 CREATE INDEX familia_npc_familia_idx ON familia_npc (familia_id);
-#-------------------------
+
 
 CREATE TABLE element (
     id serial NOT NULL PRIMARY KEY,

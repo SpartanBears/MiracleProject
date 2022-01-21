@@ -1,0 +1,15 @@
+{
+  "name": "miracle_project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "DAVG",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "pg": "^8.7.1"
+  }
+}
