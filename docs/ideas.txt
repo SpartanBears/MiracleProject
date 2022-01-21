@@ -1,0 +1,270 @@
+/*
+	Stats
+		str,agi,vit, int, dex, luk (RO style)
+
+	Attributes
+		hp, def, mdef, eva (flee), atk, matk, aspd, cspd, hit
+
+	Races
+		Dwarf
+
+		Orc
+		Elf
+		Human
+		Construct
+		
+	Classes
+		Dwarf
+			-> Soldier
+				-> Thunderer -> Cannoneer
+				-> Ironguard -> Greybeard
+				-> General -> Thane
+			-> Apprentice
+				-> Earthbender 
+					-> Geomancer
+				-> Enchanter 
+					-> Runesmith
+			-> Artisan
+				-> Blacksmith -> Warsmith -> Master Smith
+				-> Engineer
+				-> Merchant -> Trader -> Master Trader
+		Orc
+			-> Soldier
+				-> Berserker
+				-> Wolf rider
+				-> Warchief
+			-> Shaman
+				-> Nature (Heal - Buff)
+				-> Ancestors (Spirit - Invocation)
+				-> Rage (Damage)
+			-> Hunter -> Master Tracker
+		Elf
+			-> Soldier
+			-> Thoron Hend (Bow specialist)
+			-> Gwanunig Magol (Dual-sword specialist)
+			-> Noldo Cora (Wise Leader)
+			-> Mage
+				-> Elementalist
+				-> Arcanist
+				-> Diviner
+			-> Priest 
+				-> High Priest
+		Human
+			-> Soldier
+				-> Knight -> Lord Knight
+				-> Crusader -> Inquisitor
+			-> Earl -> Duke
+			-> Acolyte
+				-> Priest -> Inquisitor
+				-> Monk -> Enlightened
+			-> Scholar
+				-> Wizard -> High Wizard
+				-> Necromancer -> Dark Master
+			-> Thief
+				-> Merchant -> Trader
+				-> Assassin -> Shadow Assassin
+
+
+		Races may have one class of each of the next archetypes
+			Fighter
+			Tank
+			Archer
+			Rogue
+			Wizard
+			Support
+			Specialist (These classes may refer to a unique archetype for a Race, such as Merchant for Dwarves)
+
+		Also, Classes will fall in one of these categories
+			Bruiser: Durable damage dealers
+			Scholar: Magic users and Wise adventurers
+			Striker: Fragile but heavy damage dealer
+
+
+	Adventurers and Skills
+
+		Adventurers will have access to Race unique skills and Class unique skills.
+		Races and Class will have a pool of skills, and Adventurers, upon creating and
+		promotion, will "roll a dice" to get a few of those skills, making each Adventurer unique.
+
+
+	Level, Stats & Attributes
+
+		Character levels will go from 1 to 99, with the chance of being "reborn" at level 99, going back to
+		level 1 with extra stat points.
+
+		For each level up the character will get Math.ceil((Level*0.25)+5) stat points.
+		Stats will be allocated pseudo randomly depending on the character class and race.
+		The player will be able to reallocate all the points after paying A HUGE LOT OF MONEY.
+		Stats will go from 1 to 99.
+
+		Attributes will be calculated depending on the character stats using the following formulas:
+
+			- HP (integer)
+				Math.ceil(VIT*2.5) + (Level*(Math.ceil(Level/10)+10)) + bonuses
+
+			- DEF (integer)
+				(VIT*3) + (DEX*2) + ((Level*(VIT+DEX))/5) + bonuses
+
+			- MDEF (integer)
+				(VIT*2) + (INT*3) + ((Level*(VIT+INT)/)5) + bonuses
+
+			- EVA (integer)
+				(AGI*3) + (DEX*1.5) + bonuses
+
+			- ATK (integer)
+				(STR*3) + (AGI*1.25) + ((Level*(STR+AGI))/5)
+
+			- MATK (integer)
+				(INT*4) + ((Level*(INT*2))/5)
+
+			- ASPD (integer - Ticks per attack - MIN 20 TICKS) 
+				Math.floor(AGI/3) + Math.floor(DEX/5) + bonuses
+
+			- CSPD (integer - cooldown ticks reduction)
+				Math.floor(DEX/2) + Math.floor(AGI/3) + bonuses
+
+			- HIT (integer)
+				(DEX*3) + (INT*0.5) + bonuses
+			
+			- CRIT
+				(STR/7) + (INT/7) + (DEX/5) + (AGI/5) + (LUK/3) + bonuses
+
+
+	Combat System
+
+		- Damage
+			ATK vs DEF and MATK vs MDEF
+				ATK is the ammount of HP deducted from the enemy if the attack succedes
+				DEF is the ammount of damage mitigated
+				i.e: 100 ATK vs 36 DEF = Defender gets damaged for 64 points
+				This is an oversimplified explanation. Check "Damage Calculation".
+
+				Damage calculation
+
+					DD = Damage dealt
+					AWBD = Attacker Weapon Base Damage
+					ASAF = Attacker Stat Affinity Damage
+					AAM = Attacker Armor Modifier (Checks against Defender)
+					EM = Attacker Element Modifier (Checks against Defender)
+
+					DD = (AWBD + ASAF) * AAM * EM
+
+					Attacks
+					Piercing - Earth lvl 1 - ATK 27
+					Adventurer Lvl 47, 42 STR, 58 AGI , 31 DEX
+					Total attack before modifiers = 
+
+					Defends
+					Medium - Wind lvl 1 - DEF 18
+					Adventurer Lvl 52, 72 VIT, 52 DEX
+
+
+
+		- Evasion
+			HIT vs EVA
+			HIT and EVA are bot integers that interact as inverses.
+			i.e: 100 HIT vs 100 EVA = 0 (50% chance of landing an attack)
+			Using the example above, we will define that 0 represents 50% of landing an attack.
+			Every 10/100 (not sure yet) points 5% will be added to that probability.
+			i.e: 110 HIT vs 100 EVA = 10 (55% of landing an attack).
+			The same logic applies for EVA > HIT
+
+		- ASPD
+			Every encounter will have a timer in ticks (ms, secs, whatever)
+			Every Character will perform an action every X ticks depending on their ASPD.
+			0 ASPD = 100 ticks = 1 sec
+			Every ASPD reduces the base ticks by 2.
+
+			I.E: 72 AGI 34 DEX = 30 = 100 - 30 = 70 ticks per attack
+			
+			Attacks are instantaneous. Skills may, or may not, have a delay (SEE CSPD).
+
+		- CSPD
+			Skills will have a cast tick counter (as the basic attack does) and a channel tick counter.
+			The cast tick counter is the same as the attack, but, the channel tick counter starts counting after the Skill/Spell has been used.
+			In order to reduce that counter, CSPD exists.
+			Every spell will have its own channel tick counter.
+
+			i.e: Fireball has a channel tick counter of 89. Adventurer has 72 DEX 47 AGI = 51 CSPD = 89 - 51 = 38 ticks to cast
+
+	
+	Items
+
+		Items will have a base ATK/MATK which will be directly added to the adventurer wielding it.
+		Also, items may grant the wielder bonus stats.
+
+		Armor types
+		- Light
+		- Medium
+		- Heavy
+
+		Each armor type will have a primary and secondary affinity for an adventurer stat
+
+		Light = AGI/INT + DEX
+		Medium = DEX/STR + VIT
+		Heavy = VIT/STR + DEX
+
+		The base defense of the armor will be modified by the armor type affinity
+			PA = Primary affinity
+			SA = Secondary affinity
+			BDEF = Base DEF or MDEF
+
+			Math.ceil(BDEF + (BDEF*((PA*0.15)/100)) + (BDEF*((SA*0.075)/100)))
+
+			Type MEDIUM
+			BDEF = 50
+			DEX  = 75 <- (DEX > STR)
+			STR = 50
+			VIT = 27
+
+			Math.ceil(50 + (50*((75*0.15)/100)) + (50*((27*0.075)/100))) = 57
+
+		Items will have a damage type and element type
+
+		Damage types
+		- Slash
+		- Blunt
+		- Piercing
+		- Magic
+
+		Each damage type will have a primary and secondary affinity for an adventurer stat
+
+		Slash =  DEX + STR
+		Blunt = STR + VIT
+		Piercing = AGI + DEX
+		Magic = INT + DEX
+
+		The base damage of the weapon will be modified by the damage type affinity
+			PA = Primary affinity
+			SA = Secondary affinity
+			BDMG = Base ATK or MATK
+
+			BDMG + (BDMG*((PA*0.15)/100)) + (BDMG*((SA*0.075)/100))
+
+			Type SLASH
+			BDMG = 100
+			DEX  = 75
+			STR = 50
+
+			100 + (100*((75*0.15)/100)) + (100*((50*0.075)/100)) = 115
+
+	Element system
+
+		All damage and defense will have an element.
+		Depending on the element the calculations may vary.
+		Elements will have strengths and weaknesses against other elements.
+
+		Element types
+		 - Neutral
+		 - Water
+		 - Earth
+		 - Fire
+		 - Wind
+		 - Poison
+		 - Holy
+		 - Shadow
+		 - Ghost
+		 - Undead
+		 - Divine
+		
+		(Check elements.xlsx)

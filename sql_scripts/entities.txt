@@ -1,0 +1,13 @@
+User
+God_player
+God_patron + God_type (Merchant, Combat, Thievery, etc) (?)
+Familia
+Guild
+NPC -> Adventurer
+    -> Monster
+Item + Item type (?)
+Skill + Skill type (?)
+Dungeon_floor
+
+
+
