@@ -1,0 +1,5 @@
+let contenido_template = "<div>LOADED TROUGH WS</div>";
+
+
+document.querySelector('#ping_title').innerHTML = "PINGAAAAA: ";
+document.querySelector('#content').innerHTML = contenido_template;

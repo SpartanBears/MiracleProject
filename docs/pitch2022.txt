@@ -90,7 +90,7 @@ Estilo gráfico
 
 Systems/GUIs:
 	- Login
-		Auth -> Firebase (?)
+		Auth
 	- Main View
 		Nav Menu
 	- NPCs (Adventurers)

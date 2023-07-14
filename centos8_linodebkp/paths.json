@@ -1,0 +1,17 @@
+{
+    "SEC_MAIN_FOLDERS":"",
+    "conf_folder":"/opt/miracle_project/game_engine/conf/",
+    "queries_folder":"/opt/miracle_project/queries/",
+    "quis_folder":"/opt/miracle_project/quis/",
+    "templates_folder":"/opt/miracle_project/templates/",
+    "SEC_GAME_ENGINE_CONF":"",
+    "conf_engine_parameters":"/opt/miracle_project/game_engine/conf/conf_engine_parameters.json",
+    "conf_stat_mods_folder":"/opt/miracle_project/game_engine/stat_system_files/",
+    "SEC_GAME_ENGINE_SCRIPTS":"",
+    "ge_tick_generator":"/opt/miracle_project/game_engine/tick_generator.js",
+    "SEC_ESESELQUIS":"",
+    "le_pqui":"/etc/letsencrypt/live/miracleproject.online/privkey.pem",
+    "le_pquishein":"/etc/letsencrypt/live/miracleproject.online/fullchain.pem",
+    "SEC_MISC":"",
+    "tools_js":"/opt/miracle_project/misc/tools.js"
+}

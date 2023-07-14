@@ -1,0 +1,14 @@
+tunnel: 3fc16959-81ce-4dac-9396-0bc3d2cf56ba
+credentials-file: /home/miracle/.cloudflared/3fc16959-81ce-4dac-9396-0bc3d2cf56ba.json
+ingress:
+        - hostname: miracleproject.online
+          service: https://192.168.88.50
+          originRequest:
+                  noTLSVerify: true
+
+        - hostname: www.miracleproject.online
+          service: https://192.168.88.50
+          originRequest:
+                  noTLSVerify: true
+        
+        - service: http_status:404

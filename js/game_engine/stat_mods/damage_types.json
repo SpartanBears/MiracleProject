@@ -1,0 +1,22 @@
+{
+  "slash": {
+    "light": 1.25,
+    "medium": 1,
+    "heavy": 0.5
+  },
+  "blunt": {
+    "light": 1,
+    "medium": 0.75,
+    "heavy": 1
+  },
+  "piercing": {
+    "light": 1.25,
+    "medium": 1.25,
+    "heavy": 0.75
+  },
+  "magic": {
+    "light": 1.25,
+    "medium": 1.25,
+    "heavy": 1
+  }
+}

@@ -1,17 +1,15 @@
 /*
 	Stats
-		str,agi,vit, int, dex, luk (RO style)
+		str, agi, vit, int, dex, luk (RO style)
 
 	Attributes
-		hp, def, mdef, eva (flee), atk, matk, aspd, cspd, hit
+		hp, def, mdef, eva (flee), atk, matk, aspd, cspd, hit, crit
 
 	Races
 		Dwarf
-
 		Orc
 		Elf
 		Human
-		Construct
 		
 	Classes
 		Dwarf
@@ -20,33 +18,32 @@
 				-> Ironguard -> Greybeard
 				-> General -> Thane
 			-> Apprentice
-				-> Earthbender 
-					-> Geomancer
-				-> Enchanter 
-					-> Runesmith
+				-> Earthbender -> Geomancer
+				-> Enchanter -> Runesmith
 			-> Artisan
 				-> Blacksmith -> Warsmith -> Master Smith
-				-> Engineer
+				-> Mechanic -> Engineer
 				-> Merchant -> Trader -> Master Trader
 		Orc
-			-> Soldier
-				-> Berserker
+			-> Grunt
+				-> Soldier -> Berserker
 				-> Wolf rider
 				-> Warchief
 			-> Shaman
 				-> Nature (Heal - Buff)
 				-> Ancestors (Spirit - Invocation)
 				-> Rage (Damage)
-			-> Hunter -> Master Tracker
+			-> Hunter -> Tracker -> Master Tracker
 		Elf
 			-> Soldier
-			-> Thoron Hend (Bow specialist)
-			-> Gwanunig Magol (Dual-sword specialist)
-			-> Noldo Cora (Wise Leader)
+				-> Thoron Hend (Bow specialist)
+				-> Gwanunig Magol (Dual-sword specialist)
+				-> Noldo Cora (Wise Leader)
 			-> Mage
-				-> Elementalist
-				-> Arcanist
-				-> Diviner
+				-> Elementalist (Fire, Water, Earth, Wind)
+				-> Arcanist (Neutral)
+				-> Summoner ()
+				-> Enchanter -> Master Enchanter
 			-> Priest 
 				-> High Priest
 		Human
@@ -64,20 +61,8 @@
 				-> Merchant -> Trader
 				-> Assassin -> Shadow Assassin
 
-
-		Races may have one class of each of the next archetypes
-			Fighter
-			Tank
-			Archer
-			Rogue
-			Wizard
-			Support
-			Specialist (These classes may refer to a unique archetype for a Race, such as Merchant for Dwarves)
-
-		Also, Classes will fall in one of these categories
-			Bruiser: Durable damage dealers
-			Scholar: Magic users and Wise adventurers
-			Striker: Fragile but heavy damage dealer
+		Each class will have its own level that will determine which skills, from the skill roster for that class, will
+		the adventurer be able to use.
 
 
 	Adventurers and Skills
@@ -86,18 +71,17 @@
 		Races and Class will have a pool of skills, and Adventurers, upon creating and
 		promotion, will "roll a dice" to get a few of those skills, making each Adventurer unique.
 
-
 	Level, Stats & Attributes
 
 		Character levels will go from 1 to 99, with the chance of being "reborn" at level 99, going back to
-		level 1 with extra stat points.
+		level 1 with extra base stat points.
 
-		For each level up the character will get Math.ceil((Level*0.25)+5) stat points.
+		For each level up the character will get Math.ceil((Level*0.25)+2) stat points.
 		Stats will be allocated pseudo randomly depending on the character class and race.
 		The player will be able to reallocate all the points after paying A HUGE LOT OF MONEY.
 		Stats will go from 1 to 99.
 
-		Attributes will be calculated depending on the character stats using the following formulas:
+		Attributes will be calculated depending on the character stats using the following formulas (OUTATED, CHECK XLS):
 
 			- HP (integer)
 				Math.ceil(VIT*2.5) + (Level*(Math.ceil(Level/10)+10)) + bonuses
@@ -152,7 +136,7 @@
 					Attacks
 					Piercing - Earth lvl 1 - ATK 27
 					Adventurer Lvl 47, 42 STR, 58 AGI , 31 DEX
-					Total attack before modifiers = 
+					Total attack before modifiers = 27 + (42*3)
 
 					Defends
 					Medium - Wind lvl 1 - DEF 18
@@ -168,6 +152,10 @@
 			Every 10/100 (not sure yet) points 5% will be added to that probability.
 			i.e: 110 HIT vs 100 EVA = 10 (55% of landing an attack).
 			The same logic applies for EVA > HIT
+
+			LUCKY DODGE
+			Formula (?)
+			
 
 		- ASPD
 			Every encounter will have a timer in ticks (ms, secs, whatever)
@@ -186,6 +174,9 @@
 			Every spell will have its own channel tick counter.
 
 			i.e: Fireball has a channel tick counter of 89. Adventurer has 72 DEX 47 AGI = 51 CSPD = 89 - 51 = 38 ticks to cast
+
+		- Once the combat starts, stats cannot be modified in any way, except for some skills that will forcefully unequip an item from an adventurer, and if that
+		  item gave the adventurer bonus stats, he will lose that bonus and the attributes will be recalculated accordingly.
 
 	
 	Items
@@ -268,3 +259,7 @@
 		 - Divine
 		
 		(Check elements.xlsx)
+
+	Buffs
+
+		Buffs will be an special type of skill that increases an adventurers ATTRIBUTES (hp, def, mdef, eva, atk, matk, aspd, cspd, hit, crit)

@@ -1,0 +1,19 @@
+{
+  "merchant": {
+    "str": 0.1,
+    "agi": 0,
+    "vit": 0.1,
+    "int": 0.1,
+    "dex": 0,
+    "luk": 0.15,
+    "hp": 0,
+    "def": 0,
+    "mdef": 0,
+    "eva": 0,
+    "atk": 0,
+    "matk": 0,
+    "aspd": 0,
+    "cspd": 0,
+    "hit": 0
+  }
+}

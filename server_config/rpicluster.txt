@@ -1,0 +1,129 @@
+//FLASH SD https://www.raspberrypi.com/software/
+    miracle
+    spartan123321BEARS
+//BOOT RPI WITH SD (WAIT A FEW MIN)
+//REMOVE SD AND PLUG TO PC
+    //FIND BOOT DRIVE 
+        //OPEN cmdline.txt
+            //ADD cgroup_memory=1 cgroup_enable=memory ip=192.168.88.50::192.168.88.1:255.255.255.0:rpimaster:eth0:off
+                  cgroup_memory=1 cgroup_enable=memory ip=192.168.88.51::192.168.88.1:255.255.255.0:rpislavea:eth0:off
+                  cgroup_memory=1 cgroup_enable=memory ip=192.168.88.52::192.168.88.1:255.255.255.0:rpislaveb:eth0:off
+                  cgroup_memory=1 cgroup_enable=memory ip=192.168.88.53::192.168.88.1:255.255.255.0:rpislavec:eth0:off
+                                                            IP::DEFAULT GATEWAY:SUBNET MASK:DEVICE NAME:NIC:off
+        //OPEN config.txt
+            //ADD AFTER THE END OF FILE arm_64bit=1
+//INSTALL & CONFIG iptables
+    sudo apt-get install iptables-persistent
+    sudo iptables -F 
+    sudo update-alternatives --set iptables /usr/sbin/iptables-legacy 
+    sudo update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy 
+    sudo reboot
+
+//CONFIG MASTER
+    //INSTALL K3S
+        curl -sfL https://get.k3s.io | K3S_KUBECONFIG_MODE="644" sh -s -
+    //GET NODE TOKEN FROM MASTER
+        sudo cat /var/lib/rancher/k3s/server/node-token
+            K10ad67c99bdbf1bc802d7583dbbcfa7eec21fa820508835807090e2fbe479bcb22::server:b37433820cf8639822e44f99fe9f368b
+
+    //MANIFEST
+        //CREATE MANIFEST
+            apiVersion: apps/v1
+            kind: Deployment
+            metadata:
+            name: coredns
+            namespace: default
+            spec:
+            replicas: 1
+            selector:
+                matchLabels:
+                app: coredns
+            template:
+                metadata:
+                labels:
+                    app: coredns
+                spec:
+                containers:
+                    - name: coredns
+                    image: coredns:stable
+                    imagePullPolicy: Always
+                    ports:
+                    - containerPort: 53
+                        name: dns
+                        protocol: UDP
+                    readinessProbe:
+                        httpGet:
+                        port: dns
+                        path: /
+        
+        kubectl apply -f coredns_manifest.yaml
+
+
+
+//CONFIG SLAVE
+    //REGISTER AS NODE
+        curl -sfL https://get.k3s.io | K3S_TOKEN="K10ad67c99bdbf1bc802d7583dbbcfa7eec21fa820508835807090e2fbe479bcb22::server:b37433820cf8639822e44f99fe9f368b" K3S_URL="https://192.168.88.50:6443" K3S_NODE_NAME="rpislavea" sh -
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    systemctl status firewalld
+    systemctl disable firewalld
+    systemctl stop firewalld
+
+    swapoff -a
+    vi /etc/fstab
+        comment swap line #
+    sudo su -
+    curl https://releases.rancher.com/install-docker/20.10.sh | sh
+    mkdir /etc/rancher
+    mkdir /etc/rancher/rke2
+    cd /etc/rancher/rke2
+    vi config.yaml
+        token: rpiclusterrancher
+        tls-san:
+          - 192.168.88.60
+    //INSTAL rke
+        curl -sfL https://get.rancher.io | sh - 
+    //VERIFY
+        rancherd --help
+    //START SERVICES
+        systemctl enable rancherd-server.service
+        systemctl start rancherd-server.service
+    //CHECK LOG LOOK FOR "Node synced successfully"
+        journalctl -eu rancherd-server -f
+    //CONFIG AND ENABLE kubectl
+        export KUBECONFIG=/etc/rancher/rke2/rke2.yaml PATH=$PATH:/var/lib/rancher/rke2/bin
+    //VERIFY RANCHER IS INSTALLED ON KUBERNETES CLUSTER
+        kubectl get daemonset rancher -n cattle-system
+        kubectl get pod -n cattle-system
+    //GET LOGIN URL
+        rancherd reset-admin
+

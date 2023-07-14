@@ -1,0 +1,11 @@
+{
+    "hp":{
+        "vit_mult":2.5,
+        "level_step":10,
+        "level_step_bonus":100,
+        "vit_step":7,
+        "vit_step_hp_bonus":25,
+        "per_level_hp_bonus":75,
+        "formula_reference":"Math.ceil(base_vit*vit_mult)+(Math.floor(adv_level/level_step)*level_step_bonus)+(Math.floor(base_vit/vit_step)*vit_step_hp_bonus)+(adv_level*per_level_hp_bonus)"
+    }
+}
