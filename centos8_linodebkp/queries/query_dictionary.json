@@ -1,7 +1,0 @@
-{
-    "verify_login":"SELECT id, login_key, display_name FROM player_user WHERE login_email = $1;", 
-    "create_player_session":"INSERT INTO player_session (player_user_id, session_token, session_socket, session_meta) VALUES ($1, $2, $3, $4);",
-    "create_player_user":"INSERT INTO player_user (login_email, login_key, display_name) VALUES ($1, $2, $3);",
-    "create_major_god":"INSERT INTO major_god (name) VALUES ($1);",
-    "create_god_type":"INSERT INTO god_type (name, gerund) VALUES ($1, $2);"
-}

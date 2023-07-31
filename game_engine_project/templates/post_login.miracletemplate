@@ -1,0 +1,8 @@
+let contenido_template = '<div id="test">LOADED TROUGH WS</div>';
+
+
+document.querySelector('#ping_title').innerHTML = "PINGAAAAA: ";
+document.querySelector('#content').innerHTML = contenido_template;
+let asd = document.createElement("script");
+asd.text = "console.log('pinga para todos');";
+document.querySelector('#test').appendChild(asd);

@@ -1,0 +1,214 @@
+//Network 192.168.88.99 255.255.255.0 192.168.88.1
+    sudo nmtui
+        Edit a Connection
+        Activate
+
+//UPDATE PACKAGE REPOSITORIES
+    sudo dnf makecache
+
+//UPGRADE SYSTEM PACKAGES
+    sudo dnf upgrade
+
+//INSTALL OPENSSH
+    sudo dnf install openssh-server
+    sudo systemctl enable sshd.service
+    sudo systemctl start sshd.service
+    sudo firewall-cmd --zone=public --permanent --add-service=ssh
+    sudo firewall-cmd --reload
+
+//CREATE USER
+    sudo adduser miracle
+    sudo passwd miracle //mproject123321
+    //give sudo
+    sudo usermod -aG wheel miracle
+
+//INSTALL DOCKER
+    //enable repo
+    sudo dnf install -y yum-utils
+    sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+    //install docker ce
+    sudo dnf -y install docker-ce docker-ce-cli containerd.io
+        //if errored
+            Problem 1: problem with installed package podman
+        //use
+        sudo yum erase podman buildah
+        sudo yum erase runc
+    //enable docker
+    sudo systemctl enable --now docker
+    //add user to docker group
+    sudo usermod -aG docker $USER
+    newgrp docker
+    //check if can run commands without sudo
+    docker --version
+    //test docker
+    docker pull alpine:latest
+    docker pull hello-world
+    docker run hello-world
+
+//OPEN PORTS
+    firewall-cmd --zone=public --add-service=http --permanent
+    firewall-cmd --zone=public --add-service=https --permanent
+    firewall-cmd --zone=public --add-service=dns --permanent
+    firewall-cmd --reload
+
+//CONFIG DUCK DNS
+    sudo mkdir /var/duckdns_config
+    sudo chown miracle /var/duckdns_config
+    sudo chgrp miracle /var/duckdns_config
+    cd /var/duckdns_config
+    mkdir logs
+    vi duckdns.sh
+        echo url="https://www.duckdns.org/update?domains=ns-spears&token=a70e9dbe-3220-4678-89b0-805a91ee8d17&ip=" | curl -k -o /var/duckdns_config/logs/duckdns.log -K -
+    chmod 700 duckdns.sh
+    crontab -e
+        */5 * * * * /var/duckdns_config/duckdns.sh >/dev/null 2>&1
+    ./duckdns.sh
+
+//RUN COREDNS CONTAINER
+    sudo mkdir /var/miracleproject_coredns_config
+    sudo chgrp docker /var/miracleproject_coredns_config
+    cd /var/miracleproject_coredns_config/
+
+    sudo vi miracleproject.db
+        miracleproject.online. IN SOA ns.miracleproject.online. sysadmin.miracleproject.online. 2022060702 7200 3600 1209600 3600
+        miracleproject.online. IN A 192.168.88.99
+        @ IN NS miracleproject.online.
+        www IN CNAME miracleproject.online.
+
+    sudo vi Corefile
+        .:53 {
+            forward . 1.1.1.1 1.0.0.1
+            log
+            errors
+        }
+
+        miracleproject.online:53 {
+            file /root/miracleproject.db
+            log
+            errors
+        }
+
+    docker pull coredns/coredns
+    docker run -v $PWD/:/root -p 53:53/udp coredns/coredns -conf /root/Corefile
+
+//NGINX
+    sudo yum update
+
+    sudo yum install tar
+
+    sudo yum install nginx
+
+    sudo vi /etc/nginx/conf.d/miracleproject.online.conf
+
+        upstream upstream-nodejs {
+            server 127.0.0.1:54321;
+        }
+
+        server {
+            server_name    miracleproject.online www.miracleproject.online;
+            root           /var/www/miracleproject.online;
+            index          index.html;
+
+            gzip             on;
+            gzip_comp_level  3;
+            gzip_types       text/plain text/css application/javascript image/*;
+
+            location ~* \.io {
+                    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                    proxy_set_header Host $host;
+                    proxy_set_header X-real_IP $remote_addr;
+                    proxy_pass https://upstream-nodejs;
+                    proxy_redirect off;
+
+                    proxy_http_version 1.1;
+                    proxy_set_header Upgrade $http_upgrade;
+                    proxy_set_header Connection "upgrade";
+                }
+
+
+        }
+    
+    sudo getenforce //if "Enforcing"
+    sudo vi /etc/selinux/config
+        SELINUX=disabled
+
+    sudo reboot
+
+//POSTGRESQL
+
+    sudo dnf -qy module disable postgresql
+
+    sudo dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-8-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+
+    sudo dnf install -y postgresql14 postgresql14-server
+
+    sudo dnf install postgresql-contrib
+
+    sudo /usr/pgsql-14/bin/postgresql-14-setup initdb
+
+    sudo vi /var/lib/pgsql/14/data/postgresql.conf
+        listen_addresses = '*'
+        port = 5432
+
+    sudo vi /var/lib/pgsql/data/pg_hba.conf
+        host all all 0.0.0.0/0 ident
+
+    sudo systemctl start postgresql-14.service
+
+    sudo systemctl enable postgresql-14.service
+
+    sudo -u postgres psql -c "SELECT version();" //check if works
+
+    sudo -u postgres psql
+
+    CREATE ROLE miracle;
+
+    CREATE DATABASE miracle_project;
+
+    GRANT ALL PRIVILEGES ON DATABASE miracle_project TO miracle;
+
+    ALTER ROLE "miracle" WITH LOGIN;
+
+    \password miracle //mproject123321pgsql
+
+    \q
+
+    sudo systemctl restart postgresql-14
+
+    ss -nlt | grep 5432 //check if pgsql listen on desired ports
+        LISTEN   0    128    0.0.0.0:5432    0.0.0.0:*       
+        LISTEN   0    128    [::]:5432      [::]:*
+
+//INSTALL NODE
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
+    . ~/.nvm/nvm.sh
+    nvm install node
+    node -e "console.log('Running Node.js ' + process.version)"
+
+    sudo firewall-cmd --permanent --add-port 54321/tcp
+    sudo firewall-cmd --reload
+
+//HTTPS
+    sudo dnf install epel-release
+    sudo dnf upgrade
+    sudo yum install snapd
+    sudo systemctl enable --now snapd.socket
+    sudo ln -s /var/lib/snapd/snap /snap
+    sudo reboot
+    sudo snap install core; sudo snap refresh core
+    sudo dnf remove certbot
+    sudo yum remove certbot
+    sudo snap install --classic certbot
+    sudo ln -s /snap/bin/certbot /usr/bin/certbot
+    sudo certbot --nginx <----- AQUI VOY
+    sudo certbot renew --dry-run
+
+//INSTALL PM2
+    npm install pm2@latest -g
+    pm2 install pm2-logrotate
+    pm2 set pm2-logrotate:max_size 100M
+    pm2 set pm2-logrotate:TZ America/Santiago
+    pm2 startup
+
+    cd /opt/miracle_project/game_engine/
+    pm2 start io_handler.js -l --log ./pm2_game_engine_logs/io_handler_log.log --time

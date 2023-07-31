@@ -1,0 +1,18 @@
+{
+    "name": "Item Name",
+    "str": 10,
+    "agi": 10,
+    "vit": 10,
+    "int": 10,
+    "dex": 10,
+    "luk": 10,
+    "hp": 500,
+    "def": 10,
+    "mdef": 10,
+    "eva": 10,
+    "matk": 10,
+    "aspd": 10,
+    "cspd": 10,
+    "hit": 10,
+    "crit": 10
+}

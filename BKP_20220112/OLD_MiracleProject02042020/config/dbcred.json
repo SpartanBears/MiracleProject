@@ -1,9 +1,0 @@
-{
-	"postgres":{
-		"host": "localhost",
-		"dialect": "postgres",
-		"user": "postgres",
-		"pass": "spartan123321BEARS",
-		"database": "miracle"
-	}
-}

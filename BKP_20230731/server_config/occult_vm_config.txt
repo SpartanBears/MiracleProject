@@ -1,0 +1,80 @@
+root
+spartan123321BEARSoccult
+
+//CREATE USER occult
+    sudo adduser occult
+    sudo passwd occult //tlucco123321
+    //give sudo
+    sudo usermod -aG wheel occult
+
+//UPDATE PACKAGE REPOSITORIES
+    sudo dnf makecache
+
+//UPGRADE SYSTEM PACKAGES
+    sudo dnf upgrade
+
+//ENABLE EPEL
+    sudo dnf install epel-release
+
+//CONFIGURE TIME SERVER
+    sudo dnf install langpacks-en glibc-all-langpacks -y
+    sudo yum erase 'ntp*'
+    sudo yum install chrony
+        CHECK -> /etc/chrony.conf FOR DETAILS
+    sudo service chronyd restart
+    chronyc sources -v
+    chronyc tracking
+    sudo vi /etc/sysconfig/clock
+        ZONE="Chile/Continental"
+    sudo localectl set-locale LC_TIME=es_CL.UTF-8
+    sudo reboot
+
+//DISABLE SELINUX
+    sudo getenforce //if "Enforcing"
+    sudo vi /etc/selinux/config
+        SELINUX=disabled
+    sudo reboot
+
+//INSTALL AUX
+    sudo yum install tar
+    sudo yum install htop
+    sudo yum install unzip
+
+//INSTALL NODE (1st option)
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
+    . ~/.nvm/nvm.sh
+    nvm install node
+    node -e "console.log('Running Node.js ' + process.version)"
+
+//INSTALL PM2
+    npm install pm2@latest -g
+    pm2 install pm2-logrotate
+    pm2 set pm2-logrotate:max_size 100M
+    pm2 set pm2-logrotate:TZ America/Santiago
+    pm2 startup
+
+//POSTGRESQL
+    sudo dnf install postgresql-server glibc-all-langpacks --nogpgcheck
+    sudo postgresql-setup --initdb
+    sudo systemctl start postgresql
+    sudo -u postgres psql -c "SELECT version();" //check if works
+    sudo -u postgres createuser --interactive
+    
+    sudo -u postgres psql //shell pgsql
+        CREATE ROLE occult;
+
+        CREATE DATABASE occultpaste;
+
+        GRANT ALL PRIVILEGES ON DATABASE occultpaste TO occult;
+
+        ALTER ROLE "occult" WITH LOGIN;
+
+        \password occult //tlucco123321pgsql
+
+        \q
+
+    sudo systemctl restart postgresql.service
+
+    ss -nlt | grep 5432 //check if pgsql listen on desired ports
+        LISTEN   0    128    0.0.0.0:5432    0.0.0.0:*       
+        LISTEN   0    128    [::]:5432      [::]:*

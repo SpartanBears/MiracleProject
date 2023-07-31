@@ -1,0 +1,32 @@
+vi /etc/apt/sources.list.d/pve-enterprise.list
+    --DELETE CONTENTS--
+
+vi /etc/apt/sources.list
+
+    deb http://ftp.debian.org/debian bullseye main contrib
+    deb http://ftp.debian.org/debian bullseye-updates main contrib
+
+    # PVE pve-no-subscription repository provided by proxmox.com,
+    # NOT recommended for production use
+    deb http://download.proxmox.com/debian/pve bullseye pve-no-subscription
+
+    # security updates
+    deb http://security.debian.org/debian-security bullseye-security main contrib
+
+apt-get update
+apt-get dist-upgrade
+
+adduser spears
+passwd spears
+
+spearsPROXMOX52184623
+
+//LSI SAS
+    LIST DEVICES
+    sas3flash.efi -listall
+
+    FLASH FIRMWARE 
+    sas3flash.efi -o -e 6
+
+    INSTALL FIRMWARE
+    sas3flash.efi -o -f SAS9311_8i_IR.bin -b mptsas3.ROM -nossid

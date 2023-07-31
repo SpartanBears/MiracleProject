@@ -1,0 +1,8 @@
+{
+    "user": "miracle",
+    "host": "127.0.0.1",
+    "database": "miracle_project",
+    "password": "mproject123321pgsql",
+    "port": 5432,
+    "max": 25
+}

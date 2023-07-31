@@ -1,0 +1,142 @@
+sudo yum update
+
+sudo yum install tar
+
+sudo yum install nginx
+
+vi /etc/nginx/conf.d/miracleproject.online.conf
+
+    upstream upstream-nodejs {
+        server 127.0.0.1:54321;
+    }
+
+    server {
+        server_name    miracleproject.online www.miracleproject.online;
+        root           /var/www/miracleproject.online;
+        index          index.html;
+
+        gzip             on;
+        gzip_comp_level  3;
+        gzip_types       text/plain text/css application/javascript image/*;
+
+        location ~* \.io {
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header Host $host;
+                proxy_set_header X-real_IP $remote_addr;
+                proxy_pass https://upstream-nodejs;
+                proxy_redirect off;
+
+                proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection "upgrade";
+            }
+
+
+    }
+
+sudo mkdir -p /var/www/example.com
+
+sudo rm /etc/nginx/sites-enabled/default
+
+sudo systemctl enable nginx
+
+sudo systemctl start nginx
+
+sudo nginx -t
+
+sudo dnf install ufw -y
+
+sudo ufw enable
+
+sudo ufw app list //if Nginx is not listed as NGINX Full or Nginx FULL
+
+    vi /etc/ufw/applications.d/nginx.ini
+
+        [Nginx HTTP]
+        title=Web Server 
+        description=Enable NGINX HTTP traffic
+        ports=80/tcp
+
+        [Nginx HTTPS] \
+        title=Web Server (HTTPS) \
+        description=Enable NGINX HTTPS traffic
+        ports=443/tcp
+
+        [Nginx Full]
+        title=Web Server (HTTP,HTTPS)
+        description=Enable NGINX HTTP and HTTPS traffic
+        ports=80,443/tcp
+
+    sudo ufw app update nginx
+
+sudo ufw allow 'Nginx Full'
+
+sudo getenforce //if "Enforcing"
+    vi /etc/selinux/config
+        SELINUX=disabled
+
+sudo reboot
+
+sudo dnf install @postgresql:13
+
+sudo dnf install postgresql-contrib
+
+sudo systemctl enable --now postgresql
+
+sudo -u postgres psql -c "SELECT version();"
+
+sudo -u postgres psql
+
+CREATE ROLE miracle;
+
+CREATE DATABASE miracle_project;
+
+GRANT ALL PRIVILEGES ON DATABASE miracle_project TO miracle;
+
+ALTER ROLE "miracle" WITH LOGIN;
+
+\password miracle
+
+\q
+
+sudo nano /var/lib/pgsql/data/postgresql.conf
+    listen_addresses = '*'     # what IP address(es) to listen on;
+
+sudo systemctl restart postgresql
+
+ss -nlt | grep 5432
+
+    LISTEN   0    128    0.0.0.0:5432    0.0.0.0:*       
+    LISTEN   0    128    [::]:5432      [::]:* 
+
+vi /var/lib/pgsql/data/pg_hba.conf
+    host all all 0.0.0.0/0 ident
+
+//INSTALL NODE
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
+. ~/.nvm/nvm.sh
+nvm install node
+node -e "console.log('Running Node.js ' + process.version)"
+
+firewall-cmd --permanent --add-port 54321/tcp
+firewall-cmd --reload
+
+//HTTPS
+yum install snapd
+systemctl enable --now snapd.socket
+sudo ln -s /var/lib/snapd/snap /snap
+reboot
+sudo snap install core; sudo snap refresh core
+sudo dnf remove certbot
+sudo yum remove certbot
+sudo snap install --classic certbot
+sudo ln -s /snap/bin/certbot /usr/bin/certbot
+sudo certbot --nginx
+sudo certbot renew --dry-run
+
+//INSTALL PM2
+npm install pm2@latest -g
+pm2 install pm2-logrotate
+pm2 set pm2-logrotate:max_size 100M
+pm2 set pm2-logrotate:TZ America/Santiago
+pm2 startup
